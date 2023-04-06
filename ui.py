@@ -73,3 +73,5 @@ class QuizInterface:
             
     def add_score(self):
         self.score_label.config(text=f"Score: {self.quiz.score}")        
+        
+#=======================================================================#
