@@ -45,16 +45,23 @@ class QuizInterface:
 
     def get_next_question(self):
         self.canvas.configure(bg="white")
-        q_text = self.quiz.next_question()
-        self.canvas.itemconfig(self.question_text, text=q_text)
-
+        if self.quiz.still_has_questions():
+            q_text = self.quiz.next_question()
+            self.canvas.itemconfig(self.question_text, text=q_text)
+        else:
+            self.canvas.itemconfig(self.question_text, text=f"You have answered all the questions and your score is: {self.quiz.score}/50")
+            self.true_button.config(state="disabled")
+            self.false_button.config(state="disabled")
+            
     def true_command(self):
         answer = self.quiz.check_answer("True")
         self.give_feedback(answer)
+        self.add_score()
 
     def false_command(self):
         answer = self.quiz.check_answer("False")
         self.give_feedback(answer)
+        self.add_score()
 
     def give_feedback(self, answer):
         if answer == True:
@@ -64,3 +71,5 @@ class QuizInterface:
 
         self.window.after(1000, self.get_next_question)
             
+    def add_score(self):
+        self.score_label.config(text=f"Score: {self.quiz.score}")        
