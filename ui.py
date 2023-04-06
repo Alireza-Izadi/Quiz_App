@@ -32,11 +32,11 @@ class QuizInterface:
         self.canvas.grid(column=0, row=1, columnspan=2, padx=20, pady=20)
 
         self.true_img = PhotoImage(file="./images/true.png")
-        self.true_button = Button(image=self.true_img)
+        self.true_button = Button(image=self.true_img, command=self.true_command)
         self.true_button.grid(column=0, row=2, padx=20, pady=20)
 
         self.false_img = PhotoImage(file="./images/false.png")
-        self.false_button = Button(image=self.false_img)
+        self.false_button = Button(image=self.false_img, command=self.false_command)
         self.false_button.grid(column=1, row=2, padx=20, pady=20)
 
         self.get_next_question()
@@ -46,3 +46,11 @@ class QuizInterface:
     def get_next_question(self):
         q_text = self.quiz.next_question()
         self.canvas.itemconfig(self.question_text, text=q_text)
+
+    def true_command(self):
+        self.quiz.check_answer("True")
+        self.get_next_question()
+
+    def false_command(self):
+        self.quiz.check_answer("False")
+        self.get_next_question()
